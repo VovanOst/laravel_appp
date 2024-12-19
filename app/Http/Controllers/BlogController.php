@@ -8,9 +8,19 @@ use Illuminate\Support\Facades\Route;
 
 class BlogController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return 'Посты в блоге';
+
+        $post = (object)[
+            'id' => 123,
+            'title' => 'Lorem ipsum dolor sit amet.',
+            'content' => 'Lorem ipsum <strong>dolor</strong> sit amet consectetur, adipisicing elit. Soluta, qui?',
+        ];
+
+        $posts = array_fill(0, 10, $post);
+       // $posts= (object)[];
+
+        return view('user.posts.index', compact('posts'));
     }
 
     public function show($post)
