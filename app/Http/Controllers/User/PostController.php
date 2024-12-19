@@ -1,35 +1,63 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller\User;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
 
 class PostController extends Controller
 {
     public function index()
     {
-        return 'Страница список постов';
+        $post = (object) [
+            'id' => 123,
+            'title' => 'Lorem ipsum dolor sit amet.',
+            'content' => 'Lorem ipsum <strong>dolor</strong> sit amet consectetur, adipisicing elit. Soluta, qui?',
+            'published_at'=>now(),
+        ];
+
+        $posts = array_fill(0, 10, $post);
+
+        return view('user.posts.index', compact('posts'));
     }
 
     public function create()
     {
-        return 'Страница создание поста';
+        return view("user.posts.create");
     }
 
-    public function store()
-    {
+    public function store(Request $request)
+    {   $title=$request->input('title');
+        $content=$request->input('content');
+        dd($title,$content);
         return 'Запрос создание поста';
     }
 
     public function show($post)
     {
-        return "Страница просмотр поста {$post}";
+        $post = (object) [
+            'id' => 123,
+            'title' => 'Lorem ipsum dolor sit amet.',
+            'content' => 'Lorem ipsum <strong>dolor</strong> sit amet consectetur, adipisicing elit. Soluta, qui?',
+            'published_at'=>now(),
+        ];
+      //  $posts = array_fill(0, 10, $post);
+        return view("user.posts.show",compact('post'));
     }
 
     public function edit($post)
     {
-        return "Страница изменение поста {$post}";
+        $post = (object) [
+            'id' => 123,
+            'title' => 'Lorem ipsum dolor sit amet.',
+            'content' => 'Lorem ipsum <strong>dolor</strong> sit amet consectetur, adipisicing elit. Soluta, qui?',
+            'published_at'=>now(),
+            'published'=>true,
+        ];
+        return view("user.posts.edit", compact('post'));
     }
 
     public function update()
