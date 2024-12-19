@@ -42,7 +42,7 @@ Route::get('blog',[BlogController::class,'index'])->name('blog');
 Route::post('blog/{post}',[BlogController::class,'show'])->name('blog.like');
 Route::post('blog/{post}/like',[BlogController::class,'index'])->name('blog.like');
 
-Route::prefix('admin')->middleware('auth', 'active', 'admin')->group(function () {
+/*Route::prefix('admin')->middleware('auth', 'active', 'admin')->group(function () {
     Route::redirect('/', '/admin/posts')->name('admin');
 
     Route::get('posts', [App\Http\Controllers\Admin\PostController::class, 'index'])->name('admin.posts');
@@ -53,18 +53,18 @@ Route::prefix('admin')->middleware('auth', 'active', 'admin')->group(function ()
     Route::put('posts/{post}', [App\Http\Controllers\Admin\PostController::class, 'update'])->name('admin.posts.update');
     Route::delete('posts/{post}', [App\Http\Controllers\Admin\PostController::class, 'delete'])->name('admin.posts.delete');
     Route::put('posts/{post}/like', [App\Http\Controllers\Admin\PostController::class, 'like'])->name('admin.posts.like');
-});
+});*/
 
 Route::prefix('user')->group(function () {
     Route::redirect('/', '/user/posts')->name('user');
 
-    Route::get('posts', [PostController::class, 'index'])->name('user.posts');
-    Route::get('posts/create', [PostController::class, 'create'])->name('user.posts.create');
-    Route::post('posts', [PostController::class, 'store'])->name('user.posts.store');
-    Route::get('posts/{post}', [PostController::class, 'show'])->name('user.posts.show')->whereNumber('post');
-    Route::get('posts/{post}/edit', [PostController::class, 'edit'])->name('user.posts.edit')->whereNumber('post');
-    Route::put('posts/{post}', [PostController::class, 'update'])->name('user.posts.update')->whereNumber('post');
-    Route::delete('posts/{post}', [PostController::class, 'delete'])->name('user.posts.delete')->whereNumber('post');
+    Route::get('posts', [App\Http\Controllers\User\PostController::class, 'index'])->name('user.posts');
+    Route::get('posts/create', [App\Http\Controllers\User\PostController::class, 'create'])->name('user.posts.create');
+    Route::post('posts', [App\Http\Controllers\User\PostController::class, 'store'])->name('user.posts.store');
+    Route::get('posts/{post}', [App\Http\Controllers\User\PostController::class, 'show'])->name('user.posts.show')->whereNumber('post');
+    Route::get('posts/{post}/edit', [App\Http\Controllers\User\PostController::class, 'edit'])->name('user.posts.edit')->whereNumber('post');
+    Route::put('posts/{post}', [App\Http\Controllers\User\PostController::class, 'update'])->name('user.posts.update')->whereNumber('post');
+    Route::delete('posts/{post}', [App\Http\Controllers\User\PostController::class, 'delete'])->name('user.posts.delete')->whereNumber('post');
 
   //  Route::get('donates', DonateController::class)->name('user.donates');
 });
