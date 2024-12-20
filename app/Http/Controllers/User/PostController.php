@@ -12,14 +12,9 @@ class PostController extends Controller
 {
     public function index()
     {
-        $post = (object) [
-            'id' => 123,
-            'title' => 'Lorem ipsum dolor sit amet.',
-            'content' => 'Lorem ipsum <strong>dolor</strong> sit amet consectetur, adipisicing elit. Soluta, qui?',
-            'published_at'=>now(),
-        ];
-
-        $posts = array_fill(0, 10, $post);
+        $posts = Post::query()
+            ->latest('created_at')
+            ->paginate(12);
 
         return view('user.posts.index', compact('posts'));
     }
@@ -30,44 +25,41 @@ class PostController extends Controller
     }
 
     public function store(Request $request)
-    {   $title=$request->input('title');
-        $content=$request->input('content');
-        dd($title,$content);
-        return 'Запрос создание поста';
+    {  $validated = validate($request->all(), Post::$rules);
+
+        $post = (new Post)->fillAttributes($validated);
+        $post->user_id = User::query()->value('id');
+        $post->save();
+
+        alert(__('Сохранено!'));
+
+        return redirect()->route('user.posts.show', $post);
     }
 
-    public function show($post)
+    public function show(Post $post)
     {
-        $post = (object) [
-            'id' => 123,
-            'title' => 'Lorem ipsum dolor sit amet.',
-            'content' => 'Lorem ipsum <strong>dolor</strong> sit amet consectetur, adipisicing elit. Soluta, qui?',
-            'published_at'=>now(),
-        ];
-      //  $posts = array_fill(0, 10, $post);
         return view("user.posts.show",compact('post'));
     }
 
-    public function edit($post)
+    public function edit(Post $post)
     {
-        $post = (object) [
-            'id' => 123,
-            'title' => 'Lorem ipsum dolor sit amet.',
-            'content' => 'Lorem ipsum <strong>dolor</strong> sit amet consectetur, adipisicing elit. Soluta, qui?',
-            'published_at'=>now(),
-            'published'=>true,
-        ];
-        return view("user.posts.edit", compact('post'));
+        return view('user.posts.edit', compact('post'));
     }
 
-    public function update()
+    public function update(Request $request, Post $post)
     {
-        return 'Запрос изменение поста';
+        $validated = validate($request->all(), Post::$rules);
+
+        $post->fillAttributes($validated)->save();
+
+        alert(__('Сохранено!'));
+
+        return back();
     }
 
     public function delete()
     {
-        return 'Запрос удаление поста';
+        return redirect()->route('user.posts');
     }
 
     public function like()

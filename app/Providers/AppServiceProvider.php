@@ -22,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Paginator::useBootstrapFive();
         View::share('date', date('Y'));
 
         View::composer('user*', function ($view) {
