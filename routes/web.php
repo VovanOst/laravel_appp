@@ -4,6 +4,7 @@
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\User\DonateController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BlogController;
@@ -66,7 +67,7 @@ Route::prefix('user')->group(function () {
     Route::put('posts/{post}', [App\Http\Controllers\User\PostController::class, 'update'])->name('user.posts.update')->whereNumber('post');
     Route::delete('posts/{post}', [App\Http\Controllers\User\PostController::class, 'delete'])->name('user.posts.delete')->whereNumber('post');
 
-  //  Route::get('donates', DonateController::class)->name('user.donates');
+    Route::get('donates', DonateController::class)->name('user.donates');
 });
 
 
