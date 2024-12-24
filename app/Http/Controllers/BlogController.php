@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 
 
@@ -12,7 +13,6 @@ class BlogController extends Controller
 {
     public function index(Request $request)
     {
-
         $validated = $request->validate([
             'search' => ['nullable', 'string', 'max:50'],
             'from_date' => ['nullable', 'string', 'date'],
